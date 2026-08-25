@@ -13,7 +13,6 @@ body {
   min-height: 100vh;
 }
 
-
 .login-page {
   display: flex;
   height: 100vh;
@@ -27,7 +26,6 @@ body {
   justify-content: center;
 }
 
-
 .left-side {
   background-color: #050505;
   border-right: 2px solid #00ff00;
@@ -36,7 +34,7 @@ body {
 .responsive-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
+  object-fit: cover;
   display: block;
 }
 
@@ -97,7 +95,9 @@ body {
   color: #00ff00;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
 }
 
 .input-group input:focus {
@@ -124,7 +124,6 @@ button:hover {
   background-color: #00cc00;
 }
 
-
 @media (max-width: 768px) {
   .login-page {
     flex-direction: column;
@@ -134,10 +133,226 @@ button:hover {
     border-right: none;
     border-bottom: 2px solid #00ff00;
     flex: none;
-    height: 30vh; 
+    height: 30vh;
   }
   .right-side {
     flex: 1;
-    align-items: flex-start; 
+    align-items: flex-start;
+  }
+}
+
+.profile-page {
+  background-color: #0a0a0a;
+  color: #00ff00;
+  font-family: "Courier New", Courier, monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 2rem;
+}
+
+.terminal-layout {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 85vh;
+  background-color: #050505;
+  border: 1px solid #333;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.05);
+}
+
+.terminal-sidebar {
+  width: 300px;
+  border-right: 1px solid #333;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #020202;
+}
+
+.id-badge {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 1.5rem;
+  border: 1px dashed #00ff00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-name {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+.user-role {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 1rem;
+}
+
+.status-indicator {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #00ff00;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ff00;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-grow: 1;
+}
+.nav-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px dashed #333;
+}
+.nav-label {
+  color: #777;
+}
+.nav-value {
+  font-weight: bold;
+  color: #fff;
+}
+
+.nav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #777;
+  text-align: left;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: auto;
+}
+.nav-btn.logout {
+  color: #ff3333;
+}
+.nav-btn.logout:hover {
+  border-left: 2px solid #ff3333;
+  background-color: rgba(255, 51, 51, 0.05);
+}
+
+/* Main Area */
+.terminal-main {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.cli-header {
+  font-size: 1.1rem;
+  border-bottom: 1px dashed #333;
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+.prompt {
+  color: #00ff00;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.data-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.terminal-window {
+  border: 1px solid #333;
+  background-color: #000;
+}
+.terminal-top-bar {
+  background-color: #111;
+  border-bottom: 1px solid #333;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  color: #777;
+}
+.terminal-body {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+}
+
+.graph-container svg {
+  width: 100%;
+  height: 100%;
+  max-height: 300px;
+}
+.bar {
+  fill: #00ff00;
+  transition:
+    fill 0.3s,
+    opacity 0.3s;
+  cursor: pointer;
+}
+.bar:hover {
+  fill: #00cc00;
+  opacity: 0.8;
+}
+.axis-line {
+  stroke: #333;
+  stroke-width: 2;
+}
+.axis-text {
+  fill: #777;
+  font-size: 12px;
+  font-family: monospace;
+}
+.pie-pass {
+  fill: #00ff00;
+}
+.pie-fail {
+  fill: #ff3333;
+}
+.pie-text {
+  fill: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: monospace;
+  text-anchor: middle;
+}
+
+@media (max-width: 850px) {
+  .terminal-layout {
+    flex-direction: column;
+  }
+  .terminal-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #333;
   }
 }

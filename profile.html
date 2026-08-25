@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zone01 Oujda - Terminal Profile</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body class="profile-page">
+    <div class="terminal-layout">
+        <aside class="terminal-sidebar">
+            <div class="id-badge">
+                <div class="avatar-placeholder">
+                    [ SYS_ADMIN ]
+                </div>
+                <h2 id="user-fullname" class="user-name">Loading...</h2>
+                <p id="user-login" class="user-role">@username</p>
+                <p id="user-email" class="user-role">email@google.com</p>
+                <div class="status-indicator">
+                    <span class="dot"></span> Online - Zone01 Oujda
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-item">
+                    <span class="nav-label">Total XP:</span>
+                    <span id="total-xp" class="nav-value">0</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-label">Audit Ratio:</span>
+                    <span id="audit-ratio" class="nav-value">0.0</span>
+                </div>
+                <button id="logout-btn" class="nav-btn logout">>_ EXIT_SYSTEM</button>
+            </div>
+        </aside>
+
+        <main class="terminal-main">
+            <div class="cli-header">
+                <span class="prompt">root@zone01:~$</span> ./render_graphs.sh
+            </div>
+
+            <div class="data-stream">
+                <section class="data-block terminal-window">
+                    <div class="terminal-top-bar">
+                        <span>xp_distribution</span>
+                    </div>
+                    <div class="terminal-body graph-container" id="xp-graph-container">
+                    </div>
+                </section>
+
+                <section class="data-block terminal-window">
+                    <div class="terminal-top-bar">
+                        <span>audit_stats</span>
+                    </div>
+                    <div class="terminal-body graph-container" id="audit-graph-container">
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="./assets/js/profile.js"></script>
+</body>
+</html>
