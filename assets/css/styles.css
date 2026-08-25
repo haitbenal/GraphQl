@@ -141,6 +141,16 @@ button:hover {
   }
 }
 
+.error-message {
+  color: #ff3333;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+  display: none;
+}
+
+
 .profile-page {
   background-color: #0a0a0a;
   color: #00ff00;

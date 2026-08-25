@@ -16,7 +16,7 @@
       <div class="login-container">
         
         <h2>Zone01 Profile</h2>
-        <form action="#" method="POST">
+        <form id="login-form">
           <div class="input-group">
             <label for="username">USERNAME</label>
             <input
@@ -29,8 +29,9 @@
           </div>
           <div class="input-group">
             <label for="password">PASSWORD</label>
-            <input type="password" id="password" name="password" required />
+            <input type="password" id="password" name="password" autocomplete="current-password" required />
           </div>
+          <p id="login-error" class="error-message"></p>
           <button type="submit">Initialize</button>
         </form>
       </div>
