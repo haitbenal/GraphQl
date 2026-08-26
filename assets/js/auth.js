@@ -48,7 +48,9 @@ loginForm.addEventListener("submit", async (event) => {
       return;
     }
     localStorage.setItem("jwtToken", token);
+    
+    window.location.href = 'profile.html';
 
   } catch (error) {}
-  
+
 });
