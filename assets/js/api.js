@@ -1,7 +1,9 @@
 const endpoint = "https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql";
 
 async function FetchData(query) {
+
   const token = localStorage.getItem("jwtToken");
+
   if (!token) {
     throw new Error("No authentication token found. Please login first.");
   }
@@ -10,7 +12,7 @@ async function FetchData(query) {
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {
-        Authorization: `Basic ${token}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query }),
@@ -33,3 +35,5 @@ async function FetchData(query) {
     throw error;
   }
 }
+
+export {FetchData}
