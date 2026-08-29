@@ -11,7 +11,7 @@
         <aside class="terminal-sidebar">
             <div class="id-badge">
                 <div class="avatar-placeholder">
-                    <img src="./assets/img/user.svg" alt="" srcset="" id="avatar-profile">
+                    <img src="./assets/img/user.svg" alt="User avatar" id="avatar-profile" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <h2 id="user-fullname" class="user-name">Loading...</h2>
                 <p id="user-login" class="user-role">@username</p>
@@ -23,8 +23,12 @@
 
             <div class="sidebar-nav">
                 <div class="nav-item">
+                    <span class="nav-label">Current Level:</span>
+                    <span class="nav-value" id="current-level">0</span>
+                </div>
+                <div class="nav-item">
                     <span class="nav-label">Total XP:</span>
-                    <span id="total-xp" class="nav-value">0</span>
+                    <span id="total-xp" class="nav-value">0 B</span>
                 </div>
                 <div class="nav-item">
                     <span class="nav-label">Audit Ratio:</span>
@@ -40,11 +44,13 @@
             </div>
 
             <div class="data-stream">
+                
                 <section class="data-block terminal-window">
                     <div class="terminal-top-bar">
-                        <span>xp_distribution</span>
+                        <span>skills_matrix</span>
                     </div>
-                    <div class="terminal-body graph-container" id="xp-graph-container">
+                    <div class="terminal-body graph-container" id="skills-graph-container">
+                        <p style="color: #00ff00;">[ Generating Skills SVG... ]</p>
                     </div>
                 </section>
 
@@ -53,6 +59,16 @@
                         <span>audit_stats</span>
                     </div>
                     <div class="terminal-body graph-container" id="audit-graph-container">
+                        <p style="color: #00ff00;">[ Generating Audit SVG... ]</p>
+                    </div>
+                </section>
+                
+                <section class="data-block terminal-window">
+                    <div class="terminal-top-bar">
+                        <span>xp_transation</span>
+                    </div>
+                    <div class="terminal-body graph-container" id="transaction-graph-container">
+                        <p style="color: #00ff00;">[ Generating XP SVG... ]</p>
                     </div>
                 </section>
             </div>
