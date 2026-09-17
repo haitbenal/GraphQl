@@ -14,7 +14,10 @@ const USER_QUERY = `{
 }`;
 
 const XP_TRANSACTIONS_QUERY = `{
-  transaction(where: {type: {_eq: "xp"}}, event: { object: { name: { _eq: "Module" } } }, order_by: [{createdAt: desc}]) {
+  transaction(
+    where: {type: {_eq: "xp"}, event: {object: {name: {_eq: "Module"}}}}
+    order_by: [{createdAt: desc}]
+  ) {
     amount
     type
     createdAt
