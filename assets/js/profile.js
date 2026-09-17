@@ -14,7 +14,7 @@ const USER_QUERY = `{
 }`;
 
 const XP_TRANSACTIONS_QUERY = `{
-  transaction(where: {type: {_eq: "xp"}, eventId: {_eq: 41}, object: {object_type: {type: {_in: ["project", "piscine"]}}}}, order_by: [{createdAt: desc}]) {
+  transaction(where: {type: {_eq: "xp"}}, event: { object: { name: { _eq: "Module" } } }, order_by: [{createdAt: desc}]) {
     amount
     type
     createdAt
@@ -156,8 +156,8 @@ function RenderLevelAndXP(data) {
 }
 
 function formatXP(amount) {
-  if (amount >= 1000000) return (amount / 1000000).toFixed(2) + ' MB';
-  if (amount >= 1000) return (amount / 1000).toFixed(2) + ' kB';
+  if (amount >= 1000000) return Math.round(amount / 1000000) + ' MB';
+  if (amount >= 1000) return Math.round(amount / 1000) + ' kB';
   return amount + ' B';
 }
 
