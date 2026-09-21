@@ -10,6 +10,13 @@ function PrintError(message) {
   errorDiv.style.display = "block";
 }
 
+function toBase64Utf8(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = "";
+  bytes.forEach((b) => (binary += String.fromCharCode(b)));
+  return btoa(binary);
+}
+
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -21,8 +28,8 @@ loginForm.addEventListener("submit", async (event) => {
     return;
   }
   try {
-    const encodedData = btoa(`${user}:${pass}`);
-
+    const encodedData = toBase64Utf8(`${user}:${pass}`);
+    
     const res = await fetch(API_URL, {
       method: "POST",
       headers: {
