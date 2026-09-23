@@ -95,38 +95,35 @@ async function ProfileInit() {
     return;
   }
 
-  // Handle Logout
   document.getElementById("logout-btn").addEventListener("click", () => {
     localStorage.removeItem("jwtToken");
     window.location.href = "index.html";
   });
 
   try {
-    // Fetch all queries simultaneously
-    const [userData, levelData, txData, auditData, skillsData] = await Promise.all([
-      FetchData(USER_QUERY),
-      FetchData(LEVEL_QUERY),
-      FetchData(XP_TRANSACTIONS_QUERY),
-      FetchData(AUDIT_QUERY),
-      FetchData(SKILLS_QUERY)
-    ]);
+    const [userData, levelData, txData, auditData, skillsData] =
+      await Promise.all([
+        FetchData(USER_QUERY),
+        FetchData(LEVEL_QUERY),
+        FetchData(XP_TRANSACTIONS_QUERY),
+        FetchData(AUDIT_QUERY),
+        FetchData(SKILLS_QUERY),
+      ]);
 
     RenderUser(userData);
     RenderLevelAndXP(levelData);
-    
-    // Generate SVGs
     RenderTransactions(txData);
     RenderSkillsGraphs(skillsData);
     RenderAuditGraphs(auditData);
-    
   } catch (error) {
-    console.error("Error loading profile data:", error);
+    localStorage.removeItem("jwtToken");
+    window.location.href = "index.html";
   }
 }
 
 function RenderUser(data) {
   if (!data || !data.user || data.user.length === 0) return;
-  
+
   const user = data.user[0];
   const imageAvatar = document.getElementById("avatar-profile");
   const fullName = document.getElementById("user-fullname");
@@ -159,27 +156,27 @@ function RenderLevelAndXP(data) {
 }
 
 function formatXP(amount) {
-  if (amount >= 1000000) return Math.round(amount / 1000000) + ' MB';
-  if (amount >= 1000) return Math.round(amount / 1000) + ' kB';
-  return amount + ' B';
+  if (amount >= 1000000) return Math.round(amount / 1000000) + " MB";
+  if (amount >= 1000) return Math.round(amount / 1000) + " kB";
+  return amount + " B";
 }
 
 function RenderTransactions(data) {
   const container = document.getElementById("transaction-graph-container");
   container.innerHTML = "";
-  
+
   if (!data || !data.transaction || data.transaction.length === 0) {
     container.innerHTML = "<p>No transaction data available.</p>";
     return;
   }
-  
+
   const listContainer = document.createElement("div");
   listContainer.style.width = "100%";
   listContainer.style.maxHeight = "250px";
   listContainer.style.overflowY = "auto";
   listContainer.style.paddingRight = "10px";
 
-  data.transaction.forEach(tx => {
+  data.transaction.forEach((tx) => {
     const row = document.createElement("div");
     row.style.display = "flex";
     row.style.justifyContent = "space-between";
@@ -187,15 +184,15 @@ function RenderTransactions(data) {
     row.style.borderBottom = "1px dashed #333";
     row.style.fontFamily = "monospace";
     row.style.fontSize = "13px";
-    
+
     const dateObj = new Date(tx.createdAt);
-    const dateStr = dateObj.toISOString().split('T')[0]; 
-    
+    const dateStr = dateObj.toISOString().split("T")[0];
+
     const name = tx.object?.name || "Unknown Task";
 
     const leftSide = document.createElement("div");
     leftSide.innerHTML = `<span style="color: #555;">[${dateStr}]</span> <span style="color: #ccc; margin-left: 10px;">${name}</span>`;
-    
+
     const rightSide = document.createElement("div");
     rightSide.style.color = "#00ff00";
     rightSide.textContent = `+${formatXP(tx.amount)}`;
@@ -218,8 +215,8 @@ function RenderAuditGraphs(data) {
   const total = success + failed;
 
   if (total === 0) {
-      container.innerHTML = "<p>No audit data found.</p>";
-      return;
+    container.innerHTML = "<p>No audit data found.</p>";
+    return;
   }
 
   const svgNS = "http://www.w3.org/2000/svg";
@@ -228,40 +225,45 @@ function RenderAuditGraphs(data) {
   svg.setAttribute("width", "100%");
   svg.setAttribute("height", "100%");
 
-  const cx = 125, cy = 125, r = 80;
+  const cx = 125,
+    cy = 125,
+    r = 80;
   const circumference = 2 * Math.PI * r;
   const successDash = (success / total) * circumference;
 
   const failCircle = document.createElementNS(svgNS, "circle");
-  failCircle.setAttribute("cx", cx); 
-  failCircle.setAttribute("cy", cy); 
+  failCircle.setAttribute("cx", cx);
+  failCircle.setAttribute("cy", cy);
   failCircle.setAttribute("r", r);
   failCircle.setAttribute("fill", "none");
   failCircle.setAttribute("stroke", "#ff3333");
   failCircle.setAttribute("stroke-width", "25");
 
   const successCircle = document.createElementNS(svgNS, "circle");
-  successCircle.setAttribute("cx", cx); 
-  successCircle.setAttribute("cy", cy); 
+  successCircle.setAttribute("cx", cx);
+  successCircle.setAttribute("cy", cy);
   successCircle.setAttribute("r", r);
   successCircle.setAttribute("fill", "none");
   successCircle.setAttribute("stroke", "#00ff00");
   successCircle.setAttribute("stroke-width", "25");
-  successCircle.setAttribute("stroke-dasharray", `${successDash} ${circumference}`);
+  successCircle.setAttribute(
+    "stroke-dasharray",
+    `${successDash} ${circumference}`,
+  );
   successCircle.setAttribute("stroke-dashoffset", "0");
-  successCircle.setAttribute("transform", `rotate(-90 ${cx} ${cy})`); 
+  successCircle.setAttribute("transform", `rotate(-90 ${cx} ${cy})`);
 
   const centerText = document.createElementNS(svgNS, "text");
-  centerText.setAttribute("x", cx); 
+  centerText.setAttribute("x", cx);
   centerText.setAttribute("y", cy - 5);
   centerText.setAttribute("fill", "#fff");
   centerText.setAttribute("font-size", "22px");
   centerText.setAttribute("font-weight", "bold");
   centerText.setAttribute("text-anchor", "middle");
-  centerText.textContent = `${Math.round((success/total)*100)}%`;
+  centerText.textContent = `${Math.round((success / total) * 100)}%`;
 
   const ratioText = document.createElementNS(svgNS, "text");
-  ratioText.setAttribute("x", cx); 
+  ratioText.setAttribute("x", cx);
   ratioText.setAttribute("y", cy + 20);
   ratioText.setAttribute("fill", "#777");
   ratioText.setAttribute("font-size", "12px");
@@ -283,10 +285,10 @@ function RenderSkillsGraphs(data) {
 
   const skills = [];
   for (const [key, val] of Object.entries(data)) {
-      const amount = val?.aggregate?.max?.amount || 0;
-      if (amount > 0) {
-          skills.push({ name: key.replace('skill_', ''), amount });
-      }
+    const amount = val?.aggregate?.max?.amount || 0;
+    if (amount > 0) {
+      skills.push({ name: key.replace("skill_", ""), amount });
+    }
   }
 
   if (skills.length === 0) {
@@ -298,7 +300,7 @@ function RenderSkillsGraphs(data) {
 
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(svgNS, "svg");
-  
+
   const rowHeight = 25;
   const svgHeight = skills.length * rowHeight + 20;
   svg.setAttribute("viewBox", `0 0 400 ${svgHeight}`);
@@ -306,48 +308,47 @@ function RenderSkillsGraphs(data) {
   svg.setAttribute("height", "100%");
 
   skills.forEach((s, i) => {
-      const y = i * rowHeight + 20;
-    
-      const percentage = Math.min(Math.round(s.amount), 100);
-    
-      const text = document.createElementNS(svgNS, "text");
-      text.setAttribute("x", "10");
-      text.setAttribute("y", y);
-      text.setAttribute("fill", "#ccc");
-      text.setAttribute("font-size", "12px");
-      text.setAttribute("font-family", "monospace");
-      text.textContent = s.name.toUpperCase();
+    const y = i * rowHeight + 20;
 
-      const track = document.createElementNS(svgNS, "rect");
-      track.setAttribute("x", "100");
-      track.setAttribute("y", y - 9);
-      track.setAttribute("width", "230");
-      track.setAttribute("height", "8");
-      track.setAttribute("fill", "#111");
-      track.setAttribute("stroke", "#333");
-      track.setAttribute("stroke-width", "1");
+    const percentage = Math.min(Math.round(s.amount), 100);
 
-      
-      const fillWidth = (percentage / 100) * 230; 
-      const fill = document.createElementNS(svgNS, "rect");
-      fill.setAttribute("x", "100");
-      fill.setAttribute("y", y - 9);
-      fill.setAttribute("width", fillWidth); 
-      fill.setAttribute("height", "8");
-      fill.setAttribute("fill", "#00ff00");
+    const text = document.createElementNS(svgNS, "text");
+    text.setAttribute("x", "10");
+    text.setAttribute("y", y);
+    text.setAttribute("fill", "#ccc");
+    text.setAttribute("font-size", "12px");
+    text.setAttribute("font-family", "monospace");
+    text.textContent = s.name.toUpperCase();
 
-      const valText = document.createElementNS(svgNS, "text");
-      valText.setAttribute("x", "345");
-      valText.setAttribute("y", y);
-      valText.setAttribute("fill", "#00ff00");
-      valText.setAttribute("font-size", "12px");
-      valText.setAttribute("font-family", "monospace");
-      valText.textContent = `${percentage}%`;
+    const track = document.createElementNS(svgNS, "rect");
+    track.setAttribute("x", "100");
+    track.setAttribute("y", y - 9);
+    track.setAttribute("width", "230");
+    track.setAttribute("height", "8");
+    track.setAttribute("fill", "#111");
+    track.setAttribute("stroke", "#333");
+    track.setAttribute("stroke-width", "1");
 
-      svg.appendChild(text);
-      svg.appendChild(track);
-      svg.appendChild(fill);
-      svg.appendChild(valText);
+    const fillWidth = (percentage / 100) * 230;
+    const fill = document.createElementNS(svgNS, "rect");
+    fill.setAttribute("x", "100");
+    fill.setAttribute("y", y - 9);
+    fill.setAttribute("width", fillWidth);
+    fill.setAttribute("height", "8");
+    fill.setAttribute("fill", "#00ff00");
+
+    const valText = document.createElementNS(svgNS, "text");
+    valText.setAttribute("x", "345");
+    valText.setAttribute("y", y);
+    valText.setAttribute("fill", "#00ff00");
+    valText.setAttribute("font-size", "12px");
+    valText.setAttribute("font-family", "monospace");
+    valText.textContent = `${percentage}%`;
+
+    svg.appendChild(text);
+    svg.appendChild(track);
+    svg.appendChild(fill);
+    svg.appendChild(valText);
   });
 
   container.appendChild(svg);
