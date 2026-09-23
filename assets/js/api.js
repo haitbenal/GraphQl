@@ -26,7 +26,8 @@ async function FetchData(query) {
     }
     const body = await res.json();
     if (body.errors) {
-      throw new Error("No authentication token found. Please login first.");
+        localStorage.removeItem("jwtToken");
+        window.location.href = "index.html";
     }
     return body.data;
 
