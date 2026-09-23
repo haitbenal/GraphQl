@@ -26,7 +26,7 @@ async function FetchData(query) {
     }
     const body = await res.json();
     if (body.errors) {
-      console.error("Errors:", body.errors);
+      throw new Error("No authentication token found. Please login first.");
     }
     return body.data;
 
